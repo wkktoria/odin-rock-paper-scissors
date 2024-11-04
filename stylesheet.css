@@ -1,0 +1,52 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  height: 100vh;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#round-result {
+  margin-bottom: 12px;
+}
+
+#scoreboard,
+#players-selection {
+  width: 350px;
+  margin-bottom: 16px;
+}
+
+#scores,
+#players-selection {
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttons {
+  width: 200px;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  cursor: pointer;
+  padding: 8px 16px;
+}

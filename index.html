@@ -4,23 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Odin Rock Paper Scissors</title>
+    <link rel="stylesheet" href="stylesheet.css" />
   </head>
   <body>
     <div class="container">
       <div id="scoreboard">
         <p id="round-result">Start playing to see the result!</p>
-        <span id="human-score">Your score: 0</span>
-        <span id="computer-score">Computer score: 0</span>
+        <div id="scores">
+          <span id="human-score">Your score: 0</span>
+          <span id="computer-score">Computer score: 0</span>
+        </div>
       </div>
       <div id="players-selection">
         <span id="human-selection">Your selection: %</span>
         <span id="computer-selection">Computer selection: %</span>
       </div>
-      <ul class="buttons">
-        <li><button data-value="rock">🪨</button></li>
-        <li><button data-value="paper">🧻</button></li>
-        <li><button data-value="scissors">✂️</button></li>
-      </ul>
+      <div class="buttons">
+        <button data-value="rock">🪨</button>
+        <button data-value="paper">🧻</button>
+        <button data-value="scissors">✂️</button>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
