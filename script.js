@@ -1,76 +1,91 @@
-function getComputerChoice() {
-  const randomNumber = Math.floor(Math.random() * 3);
+const VALID_CHOICES = [
+  ["rock", "🪨"],
+  ["paper", "🧻"],
+  ["scissors", "✂️"],
+];
+const MAX_SCORE = 5;
 
-  switch (randomNumber) {
-    case 0:
-      return "rock";
-    case 1:
-      return "paper";
-    case 2:
-      return "scissors";
+const buttons = document.querySelector(".buttons");
+const roundResultText = document.querySelector("#round-result");
+const humanScoreText = document.querySelector("#human-score");
+const computerScoreText = document.querySelector("#computer-score");
+const humanSelectionText = document.querySelector("#human-selection");
+const computerSelectionText = document.querySelector("#computer-selection");
+const resetButton = document.querySelector("#reset-button");
+
+let humanScore = 0;
+let computerScore = 0;
+
+const playRound = (humanChoice, computerChoice) => {
+  if (humanChoice === computerChoice) {
+    roundResultText.textContent = "It's a draw!";
+    return;
   }
-}
 
-function getHumanChoice() {
-  let choice = prompt("What's your choice? (rock, paper, scissors)");
-  choice = choice.toLowerCase();
+  let humanWon = false;
 
-  if (choice === "rock" || choice === "paper" || choice === "scissors") {
-    return choice;
+  if (humanChoice === "rock") {
+    humanWon = computerChoice !== "paper";
+  } else if (humanChoice === "paper") {
+    humanWon = computerChoice !== "scissors";
+  } else if (humanChoice === "scissors") {
+    humanWon = computerChoice !== "rock";
   } else {
-    console.error("Invalid choice");
   }
+
+  if (humanWon) {
+    roundResultText.textContent = "You won!";
+    humanScore++;
+  } else {
+    roundResultText.textContent = "Computer won!";
+    computerScore++;
+  }
+
+  humanScoreText.textContent = `Your score: ${humanScore}`;
+  computerScoreText.textContent = `Computer score: ${computerScore}`;
+};
+
+const getComputerChoice = () => {
+  const randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
+  return VALID_CHOICES[randomIndex];
+};
+
+buttons.addEventListener("click", (event) => {
+  if (isGameFinished()) {
+    announceWinner();
+    reset();
+  } else {
+    const humanChoice = event.target.dataset.value;
+    const computerChoice = getComputerChoice();
+
+    humanSelectionText.textContent = `Your selection: ${event.target.textContent}`;
+    computerSelectionText.textContent = `Computer selection: ${computerChoice[1]}`;
+
+    playRound(humanChoice, computerChoice[0]);
+  }
+});
+
+function isGameFinished() {
+  return humanScore === MAX_SCORE || computerScore === MAX_SCORE;
 }
 
-function playGame() {
-  const NUMBER_OF_ROUNDS = 5;
-
-  const playRound = (humanChoice, computerChoice) => {
-    if (humanChoice === computerChoice) {
-      console.log("It's a draw!");
-    }
-
-    let humanWon = false;
-    if (humanChoice === "rock") {
-      humanWon = computerChoice !== "paper";
-    } else if (humanChoice === "paper") {
-      humanWon = computerChoice !== "scissors";
-    } else if (humanChoice === "scissors") {
-      humanWon = computerChoice !== "rock";
-    }
-
-    if (humanWon) {
-      console.log(`You win - ${humanChoice} beats ${computerChoice}!`);
-      return "human";
-    } else {
-      console.log(`You lose - ${computerChoice} beats ${humanChoice}!`);
-      return "computer";
-    }
-  };
-
-  let humanScore = 0;
-  let computerScore = 0;
-
-  for (let round = 1; round <= NUMBER_OF_ROUNDS; round++) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-
-    const roundWinner = playRound(humanSelection, computerSelection);
-
-    if (roundWinner === "human") {
-      humanScore++;
-    } else {
-      computerScore++;
-    }
-  }
-
+function announceWinner() {
   if (humanScore > computerScore) {
-    console.log("The winner is human!");
-  } else if (computerScore > humanScore) {
-    console.log("The winner is computer!");
+    alert("You won the game!");
   } else {
-    console.log("It's a draw!");
+    alert("Computer won the game!");
   }
 }
 
-playGame();
+function reset() {
+  humanScore = 0;
+  computerScore = 0;
+
+  roundResultText.textContent = "Start playing to see the result!";
+
+  humanScoreText.textContent = `Your score: ${humanScore}`;
+  computerScoreText.textContent = `Computer score: ${computerScore}`;
+
+  humanSelectionText.textContent = "Your selection: %";
+  computerSelectionText.textContent = "Computer selection: %";
+}
