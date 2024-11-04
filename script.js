@@ -56,6 +56,10 @@ buttons.addEventListener("click", (event) => {
     reset();
   } else {
     const humanChoice = event.target.dataset.value;
+    if (humanChoice === undefined) {
+      return;
+    }
+
     const computerChoice = getComputerChoice();
 
     humanSelectionText.textContent = `Your selection: ${event.target.textContent}`;
